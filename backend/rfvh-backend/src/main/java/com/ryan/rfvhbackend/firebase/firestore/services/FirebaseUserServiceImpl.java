@@ -1,4 +1,4 @@
-package field.ryan.rfvhbackend.services;
+package com.ryan.rfvhbackend.firebase.firestore.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,10 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import com.ryan.rfvhbackend.user.models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import field.ryan.rfvhbackend.repositories.User;
 
 @Service
 public class FirebaseUserServiceImpl implements FirebaseUserService {
@@ -28,9 +27,14 @@ public class FirebaseUserServiceImpl implements FirebaseUserService {
     }
 
     @Override
-    public void addUser(User user) throws InterruptedException, ExecutionException {
+    public void addUser(User user) {
         ApiFuture<DocumentReference> addedDocRef = dbFirestore.collection("users").add(user);
-        System.out.println("Added document with ID: " + addedDocRef.get().getId());
+        try {
+            System.out.println("Added document with ID: " + addedDocRef.get().getId());
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
@@ -42,18 +46,17 @@ public class FirebaseUserServiceImpl implements FirebaseUserService {
         ApiFuture<QuerySnapshot> future = dbFirestore.collection("users").get();
         // future.get() blocks on response
         List<QueryDocumentSnapshot> documents;
+
         try {
             documents = future.get().getDocuments();
             for (QueryDocumentSnapshot document : documents) {
                 allUsers.add(document.toObject(User.class));
             }
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
         return allUsers;
 
     }

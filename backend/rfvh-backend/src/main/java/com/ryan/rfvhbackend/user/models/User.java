@@ -1,9 +1,4 @@
-package field.ryan.rfvhbackend.repositories;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+package com.ryan.rfvhbackend.user.models;
 
 public class User {
 
