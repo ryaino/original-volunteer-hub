@@ -10,25 +10,25 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import com.ryan.rfvhbackend.user.models.User;
+import com.ryan.rfvhbackend.volunteers.Volunteer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FirebaseUserServiceImpl implements FirebaseUserService {
+public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
 
     private final Firestore dbFirestore;
 
     @Autowired
-    public FirebaseUserServiceImpl() {
+    public FirebaseVolunteerServiceImpl() {
         dbFirestore = FirestoreClient.getFirestore();
 
     }
 
     @Override
-    public void addUser(User user) {
-        ApiFuture<DocumentReference> addedDocRef = dbFirestore.collection("users").add(user);
+    public void addVolunteer(Volunteer volunteer) {
+        ApiFuture<DocumentReference> addedDocRef = dbFirestore.collection("volunteers").add(volunteer);
         try {
             System.out.println("Added document with ID: " + addedDocRef.get().getId());
         } catch (InterruptedException | ExecutionException e) {
@@ -39,25 +39,26 @@ public class FirebaseUserServiceImpl implements FirebaseUserService {
     }
 
     @Override
-    public List<User> findAll() {
-        List<User> allUsers = new ArrayList<User>();
+    public List<Volunteer> findAll() {
+        List<Volunteer> allVolunteers = new ArrayList<Volunteer>();
 
         // asynchronously retrieve all documents
-        ApiFuture<QuerySnapshot> future = dbFirestore.collection("users").get();
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection("volunteers").get();
         // future.get() blocks on response
         List<QueryDocumentSnapshot> documents;
 
         try {
             documents = future.get().getDocuments();
             for (QueryDocumentSnapshot document : documents) {
-                allUsers.add(document.toObject(User.class));
+                allVolunteers.add(document.toObject(Volunteer.class));
             }
         } catch (InterruptedException | ExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        System.out.println("------------------------------------------------------------------");
 
-        return allUsers;
+        return allVolunteers;
 
     }
 

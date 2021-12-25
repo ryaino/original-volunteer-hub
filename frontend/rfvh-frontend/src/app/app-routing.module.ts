@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserFormComponent } from './components/user-form/user-form.component';
-import { UserListComponent } from './components/user-list/user-list.component';
+import { VolunteerCreateComponent } from './volunteers/volunteer-create/volunteer-create.component';
+import { VolunteerListComponent } from './volunteers/volunteer-list/volunteer-list.component';
 
 const routes: Routes = [
-  { path: 'users', component: UserListComponent },
-  { path: 'adduser', component: UserFormComponent }
+  { path: 'volunteers', component: VolunteerListComponent },
+  { path: 'addVolunteer', component: VolunteerCreateComponent }
 ];
 
 @NgModule({
