@@ -3,17 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserListComponent } from './components/user-list/user-list.component';
-import { UserFormComponent } from './components/user-form/user-form.component';
-import { UserService } from './services/user-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { VolunteerCreateComponent } from './volunteers/volunteer-create/volunteer-create.component';
+import { VolunteerListComponent } from './volunteers/volunteer-list/volunteer-list.component';
+import { VolunteerService } from './volunteers/shared/volunteer-service.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent,
-    UserFormComponent
+    VolunteerListComponent,
+    VolunteerCreateComponent
   ],
   imports: [
      BrowserModule,
@@ -21,7 +21,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [UserService],
+  providers: [VolunteerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

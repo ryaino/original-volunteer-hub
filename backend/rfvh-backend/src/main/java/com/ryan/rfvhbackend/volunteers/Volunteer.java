@@ -1,15 +1,14 @@
-package com.ryan.rfvhbackend.user.models;
+package com.ryan.rfvhbackend.volunteers;
 
-public class User {
+public class Volunteer {
 
-  private String id;
   private String name;
   private String email;
 
-  public User() {
+  public Volunteer() {
   }
 
-  public User(String name, String email) {
+  public Volunteer(String name, String email) {
     this.setName(name);
     this.setEmail(email);
   }
@@ -28,10 +27,6 @@ public class User {
 
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  public String getId() {
-    return id;
   }
 
 }
