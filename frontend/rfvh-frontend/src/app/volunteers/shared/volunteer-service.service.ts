@@ -3,7 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Volunteer } from './volunteer.model';
 
-
+/**
+ * performs CRUD operations on the volunteers collection
+ *
+ * @author Ryan Field fieldryan19@gmail.com
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -1,5 +1,11 @@
 package com.ryan.rfvhbackend.volunteers;
 
+/**
+ * POJO that represents all fields of a document within the volunteers
+ * collection
+ *
+ * @author Ryan Field (fieldryan19@gmail.com)
+ */
 public class Volunteer {
 
   private String name;
