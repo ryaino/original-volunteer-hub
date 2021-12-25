@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutionException;
 import com.ryan.rfvhbackend.firebase.firestore.services.FirebaseVolunteerService;
 import com.ryan.rfvhbackend.volunteers.Volunteer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class VolunteersController {
 
+  Logger logger = LoggerFactory.getLogger(VolunteersController.class);
+
   private final FirebaseVolunteerService firebaseVolunteerService;
 
   @Autowired
@@ -25,12 +29,14 @@ public class VolunteersController {
   }
 
   @GetMapping("/volunteers")
-  public List<Volunteer> getUsers() {
+  public List<Volunteer> getVolunteers() {
+    logger.info("Fetching all volunteers");
     return firebaseVolunteerService.findAll();
   }
 
   @PostMapping("/volunteers")
-  void addUser(@RequestBody Volunteer volunteer) throws InterruptedException, ExecutionException {
+  void addVolunteer(@RequestBody Volunteer volunteer) throws InterruptedException, ExecutionException {
+    logger.info("Creating new volunteer with values: {}", volunteer.toString());
     firebaseVolunteerService.addVolunteer(volunteer);
   }
 
