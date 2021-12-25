@@ -1,5 +1,6 @@
 package com.ryan.rfvhbackend.volunteers.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -9,6 +10,7 @@ import com.ryan.rfvhbackend.volunteers.Volunteer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +57,12 @@ public class VolunteersController {
   void addVolunteer(@RequestBody Volunteer volunteer) throws InterruptedException, ExecutionException {
     logger.info("Creating new volunteer with values: {}", volunteer.toString());
     firebaseVolunteerService.addVolunteer(volunteer);
+  }
+
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/test")
+  public String test(Principal principal) {
+    return principal.getName();
   }
 
 }
