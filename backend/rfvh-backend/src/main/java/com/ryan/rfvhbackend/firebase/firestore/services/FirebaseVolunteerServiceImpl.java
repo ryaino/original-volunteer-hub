@@ -15,6 +15,11 @@ import com.ryan.rfvhbackend.volunteers.Volunteer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation for {@link FirebaseVolunteerService}
+ *
+ * @author Ryan Field (fieldryan19@gmail.com)
+ */
 @Service
 public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
 

@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Example controller for reading and writing volunteers
+ *
+ * @author Ryan Field (fieldryan19@gmail.com)
+ */
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class VolunteersController {
@@ -28,12 +33,24 @@ public class VolunteersController {
     this.firebaseVolunteerService = firebaseVolunteerService;
   }
 
+  /**
+   * Fetch all volunteers
+   *
+   * @return
+   */
   @GetMapping("/volunteers")
   public List<Volunteer> getVolunteers() {
     logger.info("Fetching all volunteers");
     return firebaseVolunteerService.findAll();
   }
 
+  /**
+   * Add a new volunteer
+   *
+   * @param volunteer
+   * @throws InterruptedException
+   * @throws ExecutionException
+   */
   @PostMapping("/volunteers")
   void addVolunteer(@RequestBody Volunteer volunteer) throws InterruptedException, ExecutionException {
     logger.info("Creating new volunteer with values: {}", volunteer.toString());
