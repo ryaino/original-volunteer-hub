@@ -1,14 +1,15 @@
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {  CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
+
+  private  idToken: string;
 
   constructor(private auth: Auth, private http:  HttpClient, public cookie: CookieService) { }
 
@@ -19,6 +20,7 @@ export class AuthenticationService {
         const user = userCredential.user;
 
         return user.getIdToken().then(idToken => {
+          this.idToken = idToken;
           const csrfToken = this.cookie.get('csrfToken');
           return this.postIdTokenToSessionLogin(idToken,csrfToken);
         })
@@ -34,12 +36,15 @@ export class AuthenticationService {
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
-          Authorization: idToken,
         })
       }
-      return this.http.get('http://localhost:8080/sessionLogin',httpOptions).subscribe(()=>{
-        console.log('trying to post');
+      return this.http.post('http://localhost:8080/sessionLogin',null,httpOptions).subscribe(()=>{
+        console.log("posting")
       });
 
+    }
+
+    getToken(){
+      return this.idToken;
     }
 }

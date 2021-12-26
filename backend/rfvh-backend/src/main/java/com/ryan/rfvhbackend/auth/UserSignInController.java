@@ -19,7 +19,7 @@ public class UserSignInController {
 
     Logger logger = LoggerFactory.getLogger(UserSignInController.class);
 
-    @RequestMapping(value = "/sessionLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/sessionLogin", method = RequestMethod.POST)
     public void createSessionCookie(@RequestHeader String Authorization) {
         logger.error(Authorization);
 

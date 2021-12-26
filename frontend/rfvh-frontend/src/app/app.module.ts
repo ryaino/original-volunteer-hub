@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VolunteerCreateComponent } from './volunteers/volunteer-create/volunteer-create.component';
 import { VolunteerListComponent } from './volunteers/volunteer-list/volunteer-list.component';
@@ -19,6 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { CookieModule } from 'ngx-cookie';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { CookieModule } from 'ngx-cookie';
     CookieModule.forRoot()
 
   ],
-  providers: [VolunteerService],
+  providers: [VolunteerService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
