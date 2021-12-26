@@ -32,11 +32,8 @@ export class LoginComponent implements OnInit {
       return;
     }
     const{email,password} = this.loginForm.value;
-    this.authService.login(email,password).subscribe((userCredential) => {
-      console.log(userCredential.user.getIdToken())
-      this.router.navigate(['/volunteers'])
+    this.authService.login(email,password);
 
-    });
-  }
+      }
 
 }

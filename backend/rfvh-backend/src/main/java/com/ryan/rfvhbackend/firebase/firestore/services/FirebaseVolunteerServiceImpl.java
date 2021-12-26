@@ -23,17 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
 
-    private final Firestore dbFirestore;
+    private final Firestore dbFirestore = null;
 
     @Autowired
     public FirebaseVolunteerServiceImpl() {
-        dbFirestore = FirestoreClient.getFirestore();
 
     }
 
     @Override
     public void addVolunteer(Volunteer volunteer) {
-        ApiFuture<DocumentReference> addedDocRef = dbFirestore.collection("volunteers").add(volunteer);
+        ApiFuture<DocumentReference> addedDocRef = FirestoreClient.getFirestore().collection("volunteers")
+                .add(volunteer);
         try {
             System.out.println("Added document with ID: " + addedDocRef.get().getId());
         } catch (InterruptedException | ExecutionException e) {
