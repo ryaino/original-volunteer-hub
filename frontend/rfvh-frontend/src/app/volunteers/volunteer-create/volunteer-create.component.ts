@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Volunteer } from 'src/app/volunteers/shared/volunteer.model';
 import { VolunteerService } from '../shared/volunteer-service.service';
@@ -13,9 +13,14 @@ import { VolunteerService } from '../shared/volunteer-service.service';
   templateUrl: './volunteer-create.component.html',
   styleUrls: ['./volunteer-create.component.scss']
 })
-export class VolunteerCreateComponent {
+export class VolunteerCreateComponent implements OnInit{
 
     volunteer: Volunteer;
+
+    ngOnInit(): void {
+      this.volunteerService.getAddVolunteer().subscribe(data => {
+      })
+  }
 
   constructor(
     private route: ActivatedRoute, private router: Router, private volunteerService: VolunteerService) {

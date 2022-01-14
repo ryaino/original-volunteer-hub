@@ -20,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { CookieModule } from 'ngx-cookie';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { AuthInterceptorService } from './interceptors/auth-interceptor.service'
     CookieModule.forRoot()
 
   ],
-  providers: [VolunteerService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },],
+  providers: [VolunteerService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

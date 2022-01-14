@@ -23,8 +23,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
 
-    private final Firestore dbFirestore = null;
-
     @Autowired
     public FirebaseVolunteerServiceImpl() {
 
@@ -48,7 +46,7 @@ public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
         List<Volunteer> allVolunteers = new ArrayList<Volunteer>();
 
         // asynchronously retrieve all documents
-        ApiFuture<QuerySnapshot> future = dbFirestore.collection("volunteers").get();
+        ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection("volunteers").get();
         // future.get() blocks on response
         List<QueryDocumentSnapshot> documents;
 

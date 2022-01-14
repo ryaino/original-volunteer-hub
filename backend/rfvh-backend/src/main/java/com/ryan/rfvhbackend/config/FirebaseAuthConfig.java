@@ -29,12 +29,12 @@ public class FirebaseAuthConfig {
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
                 .build();
 
-        var firebaseApp = FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            var firebaseApp = FirebaseApp.initializeApp(options);
+            return FirebaseAuth.getInstance(firebaseApp);
+        }
 
-        return FirebaseAuth.getInstance(firebaseApp);
-        // if (FirebaseApp.getApps().isEmpty()) {
-        // FirebaseApp.initializeApp(options);
-        // }
+        return FirebaseAuth.getInstance();
 
     }
 
