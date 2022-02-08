@@ -11,7 +11,7 @@ import { VolunteerService } from './volunteers/shared/volunteer-service.service'
 import { LoginComponent } from './login/login/login.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { firebaseConfig } from '../resources/firebaseConfig';
-import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideAuth,getAuth, Persistence } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,13 +21,18 @@ import {MatInputModule} from '@angular/material/input';
 import { CookieModule } from 'ngx-cookie';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ProfileComponent } from './profile/profile/profile.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VolunteerListComponent,
     VolunteerCreateComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent,
+    HomeComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -46,7 +51,9 @@ import { CookieService } from 'ngx-cookie-service';
     CookieModule.forRoot()
 
   ],
-  providers: [VolunteerService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }, CookieService],
+  providers: [VolunteerService,
+            { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+              CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

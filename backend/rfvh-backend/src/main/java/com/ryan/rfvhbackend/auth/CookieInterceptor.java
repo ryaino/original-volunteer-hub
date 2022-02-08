@@ -45,7 +45,7 @@ public class CookieInterceptor implements HandlerInterceptor {
                         return true;
                     } catch (FirebaseAuthException e) {
                         logger.error("Session cookie is unavailable, invalid or revoked. Error: {}", e.toString());
-                        response.sendRedirect("/login");
+                        response.sendRedirect("http://localhost:4200/login");
                     }
                 }
             }

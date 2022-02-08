@@ -26,8 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(
-                new CookieInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/login", "/api/logout");
+        // registry.addInterceptor(
+        // new
+        // CookieInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/login",
+        // "/api/logout");
     }
 
 }

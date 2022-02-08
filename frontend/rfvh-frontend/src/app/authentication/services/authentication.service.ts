@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import {  Config, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {  Config, inMemoryPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { CookieService } from 'ngx-cookie';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,11 @@ export class AuthenticationService {
 
   constructor(private auth: Auth, private http:  HttpClient, public cookie: CookieService, private router: Router) { }
 
-  login(email: string, password: string){
-    signInWithEmailAndPassword(this.auth, email, password)
+   async login(email: string, password: string){
+
+    this.auth.setPersistence( inMemoryPersistence);
+
+    await signInWithEmailAndPassword(this.auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -31,7 +34,7 @@ export class AuthenticationService {
       }).then(()=>{
         return this.auth.signOut();
       }).then(()=>{
-        this.router.navigateByUrl('/volunteers');
+        console.log('redirecting to profile')
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -40,8 +43,8 @@ export class AuthenticationService {
     }
 
     postIdTokenToSessionLogin(idToken: string, csrfToken: string){
-      return this.http.post<HttpResponse<Object>>("http://localhost:8080/api/sessionLogin", null,{ observe: "response", withCredentials: true,headers: new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': idToken}) })
-          .subscribe((res: HttpResponse<Object>) => console.log(res.headers.get('set-cookie')));
+      console.log('performing session')
+      return this.http.post<HttpResponse<Object>>("http://localhost:8080/api/sessionLogin", null,{ observe: "response", withCredentials: true,headers: new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': idToken}) }).subscribe()
 
 
 
@@ -49,6 +52,13 @@ export class AuthenticationService {
 
     getToken(){
       return this.idToken;
+    }
+
+     async isAuthenticated(){
+       console.log(this.cookie.get('api/session'));
+    // const promise = new Promise<boolean>((resolve, reject) => { return this.http.post<boolean>("http://localhost:8080/api/authenticate", null, {withCredentials: true})});
+     const promise =  await firstValueFrom(this.http.post<boolean>("http://localhost:8080/api/authenticate", null, {withCredentials: true}));
+     return promise;
     }
 
     // postConfigResponse(): Observable<HttpResponse<any>> {
