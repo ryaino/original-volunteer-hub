@@ -23,17 +23,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
 
-    private final Firestore dbFirestore;
-
     @Autowired
     public FirebaseVolunteerServiceImpl() {
-        dbFirestore = FirestoreClient.getFirestore();
 
     }
 
     @Override
     public void addVolunteer(Volunteer volunteer) {
-        ApiFuture<DocumentReference> addedDocRef = dbFirestore.collection("volunteers").add(volunteer);
+        ApiFuture<DocumentReference> addedDocRef = FirestoreClient.getFirestore().collection("volunteers")
+                .add(volunteer);
         try {
             System.out.println("Added document with ID: " + addedDocRef.get().getId());
         } catch (InterruptedException | ExecutionException e) {
@@ -48,7 +46,7 @@ public class FirebaseVolunteerServiceImpl implements FirebaseVolunteerService {
         List<Volunteer> allVolunteers = new ArrayList<Volunteer>();
 
         // asynchronously retrieve all documents
-        ApiFuture<QuerySnapshot> future = dbFirestore.collection("volunteers").get();
+        ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection("volunteers").get();
         // future.get() blocks on response
         List<QueryDocumentSnapshot> documents;
 

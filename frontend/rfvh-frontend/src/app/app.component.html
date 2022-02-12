@@ -1,28 +1,5 @@
 
-<mat-toolbar color="primary">
-  {{title}}
-  <button mat-button routerLink="login">
-    <mat-icon>login</mat-icon>
-    Login
-  </button>
-</mat-toolbar>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/volunteers" class="btn btn-info">List Volunteers</a>
-            </li>
-            <li class="list-inline-item">
-              <a routerLink="/addVolunteer" class="btn btn-info">Add Volunteer</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+
       <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+

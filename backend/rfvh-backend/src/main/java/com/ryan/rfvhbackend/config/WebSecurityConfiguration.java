@@ -1,10 +1,10 @@
 package com.ryan.rfvhbackend.config;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.tomcat.websocket.WsWebSocketContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Sets up Spring Security to decode and verify JWT tokens
@@ -21,12 +22,23 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    Logger logger = LoggerFactory.getLogger(WsWebSocketContainer.class);
+    Logger logger = LoggerFactory.getLogger(WebSecurityConfiguration.class);
 
     @Override
     public void configure(HttpSecurity http) {
+
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(
+                List.of("Authorization", "Cache-Control", "Content-Type", "Access-Control-Request-Headers",
+                        "Access-Control-Allow-Headers", "session"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
+        corsConfiguration
+                .setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setExposedHeaders(List.of("Set-Cookie", "session"));
+
         try {
-            http.csrf().disable();
+            http.csrf().disable().cors().configurationSource(request -> corsConfiguration);
 
             http.oauth2ResourceServer()
                     .jwt()

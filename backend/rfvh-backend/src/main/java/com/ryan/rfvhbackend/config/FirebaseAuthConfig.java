@@ -7,7 +7,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,12 +29,12 @@ public class FirebaseAuthConfig {
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
                 .build();
 
-        var firebaseApp = FirebaseApp.initializeApp(options);
+        if (FirebaseApp.getApps().isEmpty()) {
+            var firebaseApp = FirebaseApp.initializeApp(options);
+            return FirebaseAuth.getInstance(firebaseApp);
+        }
 
-        return FirebaseAuth.getInstance(firebaseApp);
-        // if (FirebaseApp.getApps().isEmpty()) {
-        // FirebaseApp.initializeApp(options);
-        // }
+        return FirebaseAuth.getInstance();
 
     }
 

@@ -40,7 +40,7 @@ public class VolunteersController {
    *
    * @return
    */
-  @GetMapping("/volunteers")
+  @GetMapping("/api/volunteers")
   public List<Volunteer> getVolunteers() {
     logger.info("Fetching all volunteers");
     return firebaseVolunteerService.findAll();
@@ -53,16 +53,21 @@ public class VolunteersController {
    * @throws InterruptedException
    * @throws ExecutionException
    */
-  @PostMapping("/volunteers")
+  @PostMapping("/api/volunteers")
   void addVolunteer(@RequestBody Volunteer volunteer) throws InterruptedException, ExecutionException {
     logger.info("Creating new volunteer with values: {}", volunteer.toString());
     firebaseVolunteerService.addVolunteer(volunteer);
   }
 
   @PreAuthorize("hasAuthority('READ')")
-  @GetMapping("/test")
+  @GetMapping("/api/test")
   public String test(Principal principal) {
     return principal.getName();
+  }
+
+  @GetMapping("/api/addVolunteer")
+  void getAddVolunteer() {
+
   }
 
 }
