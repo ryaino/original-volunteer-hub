@@ -35,19 +35,27 @@ export class AuthenticationService {
         return this.auth.signOut();
       }).then(()=>{
         console.log('redirecting to profile')
+        return true;
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        return false;
       });
     }
 
     postIdTokenToSessionLogin(idToken: string, csrfToken: string){
       console.log('performing session')
       return this.http.post<HttpResponse<Object>>("http://localhost:8080/api/sessionLogin", null,{ observe: "response", withCredentials: true,headers: new HttpHeaders({'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': idToken}) }).subscribe()
+    }
 
-
-
+    signOut(){
+      console.log('posting to session logout')
+      return this.http.post<HttpResponse<Object>>("http://localhost:8080/api/sessionLogout",null).subscribe(res => {
+        if (res.status === 500) {
+          console.log('bad response')
+        }
+      })
     }
 
     getToken(){

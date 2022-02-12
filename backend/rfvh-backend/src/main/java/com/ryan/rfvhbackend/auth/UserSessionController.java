@@ -61,12 +61,12 @@ public class UserSessionController {
             Cookie cookie = new Cookie("session", sessionCookie);
             response.addCookie(cookie);
 
-            return ResponseEntity.ok(new Gson().toJson("test"));
+            return ResponseEntity.ok().build();
         } catch (FirebaseAuthException e) {
             logger.error("Unable to create session cookie");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
-        logger.error(authorization);
+        logger.error("cannot log in");
         return ResponseEntity.badRequest().body("Cannot Log in");
 
     }
@@ -85,7 +85,8 @@ public class UserSessionController {
             cookie.setSecure(true);
 
             response.addCookie(newCookie);
-            response.sendRedirect("/login");
+            response.setStatus(301);
+            response.setHeader("Location", "http://localhost:4200/login");
 
         } catch (FirebaseAuthException e) {
             logger.error("Problem clearing session cookie: {}", e.toString());

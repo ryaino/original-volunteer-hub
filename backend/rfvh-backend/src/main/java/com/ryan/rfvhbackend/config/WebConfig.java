@@ -28,8 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // registry.addInterceptor(
         // new
-        // CookieInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/login",
-        // "/api/logout");
+        // CookieInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/sessionLogin",
+        // "/api/sessionLogout", "/api/authenticate");
     }
 
 }

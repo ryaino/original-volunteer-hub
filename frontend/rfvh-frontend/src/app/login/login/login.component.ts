@@ -24,9 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // run every 500ms
-  this.interval =  setInterval(() => this.navigate(), 2000);
-    // use clearInterval(this.interval) to stop
+    this.navigate();
   }
 
 
@@ -43,9 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     const{email,password} = this.loginForm.value;
     await this.authService.login(email,password);
+    this.interval =  setInterval(() => this.navigate(), 500);
 
-
-      }
+  }
 
   navigate(){
    this.authService.isAuthenticated().then(res =>{

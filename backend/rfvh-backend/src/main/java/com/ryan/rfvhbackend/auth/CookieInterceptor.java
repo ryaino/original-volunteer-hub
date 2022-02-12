@@ -38,20 +38,16 @@ public class CookieInterceptor implements HandlerInterceptor {
                         final boolean checkRevoked = true;
                         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifySessionCookie(cookie.getValue(),
                                 checkRevoked);
-                        FirebaseAuth.getInstance().revokeRefreshTokens(decodedToken.getUid());
-
-                        // Traverse cookie s Return true if login status is found to continue executing
-                        // method originally requested url to controller
                         return true;
                     } catch (FirebaseAuthException e) {
                         logger.error("Session cookie is unavailable, invalid or revoked. Error: {}", e.toString());
-                        response.sendRedirect("http://localhost:4200/login");
+                        response.setStatus(500);
                     }
                 }
             }
         }
         logger.error("Interceptor is intercepting request");
-        return true;
+        return false;
 
     }
 
