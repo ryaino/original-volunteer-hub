@@ -1,4 +1,4 @@
-package com.ryan.rfvhbackend.auth;
+package com.ryan.rfvhbackend.auth.controllers;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.SessionCookieOptions;
 import com.google.gson.Gson;
+import com.ryan.rfvhbackend.auth.services.AuthenticationService;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.slf4j.Logger;

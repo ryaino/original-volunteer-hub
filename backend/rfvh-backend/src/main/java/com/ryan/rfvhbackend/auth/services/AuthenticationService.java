@@ -1,4 +1,4 @@
-package com.ryan.rfvhbackend.auth;
+package com.ryan.rfvhbackend.auth.services;
 
 import javax.servlet.http.Cookie;
 
