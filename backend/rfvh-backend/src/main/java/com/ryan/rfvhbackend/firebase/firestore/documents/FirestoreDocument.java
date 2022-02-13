@@ -1,5 +1,7 @@
 package com.ryan.rfvhbackend.firebase.firestore.documents;
 
+import java.util.UUID;
+
 /**
  * Superclass for every class that represents a document in the database
  *
@@ -7,10 +9,7 @@ package com.ryan.rfvhbackend.firebase.firestore.documents;
  */
 public abstract class FirestoreDocument {
 
-    final String collectionPath;
+    public abstract String collectionName();
 
-    FirestoreDocument(String collectionPath) {
-        this.collectionPath = collectionPath;
-    }
-
+    public abstract String id();
 }
