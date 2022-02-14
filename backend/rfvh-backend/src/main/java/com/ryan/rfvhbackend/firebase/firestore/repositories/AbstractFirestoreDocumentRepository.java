@@ -1,11 +1,16 @@
 package com.ryan.rfvhbackend.firebase.firestore.repositories;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
@@ -104,6 +109,22 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
     public <S extends AbstractFirestoreDocument> Iterable<S> saveAll(Iterable<S> entities) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public <S extends AbstractFirestoreDocument> List<S> findAllByFieldValue(String fieldName, Object fieldValue) {
+        List<S> results = new ArrayList<S>();
+        ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection(collectionName())
+                .whereEqualTo(fieldName, fieldValue).get();
+        try {
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            for (DocumentSnapshot document : documents) {
+                results.add((S) document.toObject(classType()));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return results;
     }
 
     public abstract String collectionName();

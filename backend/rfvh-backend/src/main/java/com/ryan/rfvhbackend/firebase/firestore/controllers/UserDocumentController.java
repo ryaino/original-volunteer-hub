@@ -1,5 +1,7 @@
 package com.ryan.rfvhbackend.firebase.firestore.controllers;
 
+import java.util.List;
+
 import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 import com.ryan.rfvhbackend.firebase.firestore.documents.UserDocument;
 import com.ryan.rfvhbackend.firebase.firestore.services.UserDocumentService;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Ryan Field (fieldryan19@gmail.com)
  */
 @RestController
-public class UserDocumentController extends AbstractDocumentController {
+public class UserDocumentController extends AbstractDocumentController<UserDocument> {
 
     Logger logger = LoggerFactory.getLogger(UserDocumentController.class);
 
@@ -29,8 +31,13 @@ public class UserDocumentController extends AbstractDocumentController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<? extends AbstractFirestoreDocument> getUserById(@RequestParam String id) {
+    public ResponseEntity<UserDocument> getUserById(@RequestParam String id) {
         return getDocumentById(id);
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDocument>> getUsersByFieldValue(@RequestParam String fieldName,
+            @RequestParam Object fieldValue) {
+        return ResponseEntity.ok(getDocumentsByFieldValue(fieldName, fieldValue));
+    }
 }

@@ -1,13 +1,12 @@
 package com.ryan.rfvhbackend.firebase.firestore.controllers;
 
+import java.util.List;
+
 import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
-import com.ryan.rfvhbackend.firebase.firestore.repositories.AbstractFirestoreDocumentRepository;
 import com.ryan.rfvhbackend.firebase.firestore.services.AbstractDocumentService;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,17 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/document")
-public abstract class AbstractDocumentController {
+public abstract class AbstractDocumentController<D extends AbstractFirestoreDocument> {
 
-    private AbstractDocumentService<?, ?> service;
+    private AbstractDocumentService<D, ?> service;
 
-    public AbstractDocumentController(AbstractDocumentService<?, ?> service) {
+    public AbstractDocumentController(AbstractDocumentService<D, ?> service) {
         this.service = service;
     }
 
-    public ResponseEntity<? extends AbstractFirestoreDocument> getDocumentById(String id) {
-        AbstractFirestoreDocument document = service.getDocumentById(id);
+    /**
+     * find a single document using it's unique id
+     *
+     * @param id
+     * @return
+     */
+    public ResponseEntity<D> getDocumentById(String id) {
+        D document = service.getDocumentById(id);
         return ResponseEntity.ok(document);
+    }
+
+    /**
+     * find all documents that contain the given field where it matches the given
+     * value
+     *
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
+    public List<D> getDocumentsByFieldValue(String fieldName, Object fieldValue) {
+        return service.getDocumentsByFieldValue(fieldName, fieldValue);
+
     }
 
 }
