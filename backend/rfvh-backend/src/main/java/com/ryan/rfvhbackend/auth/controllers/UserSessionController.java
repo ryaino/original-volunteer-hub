@@ -10,17 +10,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.SessionCookieOptions;
-import com.google.gson.Gson;
 import com.ryan.rfvhbackend.auth.services.AuthenticationService;
 
-import org.apache.commons.collections4.MultiValuedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +51,7 @@ public class UserSessionController {
 
         try {
             String sessionCookie = FirebaseAuth.getInstance().createSessionCookie(authorization, options);
-            MultiValueMap<String, String> headers = new HttpHeaders();
+            // MultiValueMap<String, String> headers = new HttpHeaders();
             // headers.add("session", sessionCookie);
 
             Cookie cookie = new Cookie("session", sessionCookie);

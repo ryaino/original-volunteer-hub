@@ -1,8 +1,6 @@
 package com.ryan.rfvhbackend.firebase.firestore.documents;
 
-import java.util.UUID;
-
-public class UserDocument extends FirestoreDocument {
+public class UserDocument extends AbstractFirestoreDocument {
 
     public static String COLLECTION_NAME = "users";
 
@@ -13,18 +11,18 @@ public class UserDocument extends FirestoreDocument {
     public UserDocument() {
     }
 
+    public UserDocument(String name, String email, String id) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setId(id);
+    }
+
     public String id() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public UserDocument(String name, String email, String id) {
-        this.setName(name);
-        this.setEmail(email);
-        this.setId(id);
     }
 
     public String getName() {
@@ -41,11 +39,6 @@ public class UserDocument extends FirestoreDocument {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public String collectionName() {
-        return "users";
     }
 
 }

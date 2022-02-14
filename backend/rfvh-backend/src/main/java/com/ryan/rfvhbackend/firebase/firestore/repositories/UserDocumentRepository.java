@@ -4,8 +4,11 @@ import com.ryan.rfvhbackend.firebase.firestore.documents.UserDocument;
 
 import org.springframework.stereotype.Repository;
 
+/**
+ * CRUD repository that deals with {@link UserDocument}
+ */
 @Repository
-public class UserDocumentRepository extends FirestoreDocumentRepository<UserDocument> {
+public class UserDocumentRepository extends AbstractFirestoreDocumentRepository<UserDocument> {
 
     @Override
     public String collectionName() {

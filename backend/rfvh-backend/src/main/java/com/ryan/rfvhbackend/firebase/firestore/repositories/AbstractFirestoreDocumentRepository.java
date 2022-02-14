@@ -8,12 +8,12 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import com.ryan.rfvhbackend.firebase.firestore.documents.FirestoreDocument;
+import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 
 import org.springframework.data.repository.CrudRepository;
 
-public abstract class FirestoreDocumentRepository<T extends FirestoreDocument>
-        implements CrudRepository<FirestoreDocument, String> {
+public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFirestoreDocument>
+        implements CrudRepository<AbstractFirestoreDocument, String> {
 
     @Override
     public long count() {
@@ -22,7 +22,7 @@ public abstract class FirestoreDocumentRepository<T extends FirestoreDocument>
     }
 
     @Override
-    public void delete(FirestoreDocument entity) {
+    public void delete(AbstractFirestoreDocument entity) {
         // TODO Auto-generated method stub
 
     }
@@ -34,7 +34,7 @@ public abstract class FirestoreDocumentRepository<T extends FirestoreDocument>
     }
 
     @Override
-    public void deleteAll(Iterable<? extends FirestoreDocument> entities) {
+    public void deleteAll(Iterable<? extends AbstractFirestoreDocument> entities) {
         // TODO Auto-generated method stub
 
     }
@@ -58,20 +58,20 @@ public abstract class FirestoreDocumentRepository<T extends FirestoreDocument>
     }
 
     @Override
-    public Iterable<FirestoreDocument> findAll() {
+    public Iterable<AbstractFirestoreDocument> findAll() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Iterable<FirestoreDocument> findAllById(Iterable<String> ids) {
+    public Iterable<AbstractFirestoreDocument> findAllById(Iterable<String> ids) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Optional<FirestoreDocument> findById(String id) {
-        Optional<FirestoreDocument> result = Optional.empty();
+    public Optional<AbstractFirestoreDocument> findById(String id) {
+        Optional<AbstractFirestoreDocument> result = Optional.empty();
         DocumentReference docRef = FirestoreClient.getFirestore().collection(collectionName()).document(id);
         ApiFuture<DocumentSnapshot> future = docRef.get();
 
@@ -94,14 +94,14 @@ public abstract class FirestoreDocumentRepository<T extends FirestoreDocument>
     }
 
     @Override
-    public <S extends FirestoreDocument> S save(S entity) {
-        ApiFuture<WriteResult> addedDocRef = FirestoreClient.getFirestore().collection(entity.collectionName())
+    public <S extends AbstractFirestoreDocument> S save(S entity) {
+        ApiFuture<WriteResult> addedDocRef = FirestoreClient.getFirestore().collection(collectionName())
                 .document(entity.id().toString()).set(entity);
         return null;
     }
 
     @Override
-    public <S extends FirestoreDocument> Iterable<S> saveAll(Iterable<S> entities) {
+    public <S extends AbstractFirestoreDocument> Iterable<S> saveAll(Iterable<S> entities) {
         // TODO Auto-generated method stub
         return null;
     }

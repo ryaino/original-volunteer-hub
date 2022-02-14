@@ -28,7 +28,7 @@ public class UserDocumentController {
     }
 
     @GetMapping("/api/document/user")
-    public ResponseEntity<UserDocument> getUserDocument(@RequestParam String userId) {
+    public ResponseEntity<UserDocument> getUserDocumentById(@RequestParam String userId) {
         UserDocument document = userDocumentService.getUserDocument(userId);
 
         return ResponseEntity.ok(document);

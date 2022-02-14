@@ -2,7 +2,7 @@ package com.ryan.rfvhbackend.firebase.firestore.services;
 
 import java.util.Optional;
 
-import com.ryan.rfvhbackend.firebase.firestore.documents.FirestoreDocument;
+import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 import com.ryan.rfvhbackend.firebase.firestore.documents.UserDocument;
 import com.ryan.rfvhbackend.firebase.firestore.repositories.UserDocumentRepository;
 
@@ -26,7 +26,7 @@ public class UserDocumentServiceImpl implements UserDocumentService {
 
     @Override
     public UserDocument getUserDocument(String userId) {
-        Optional<FirestoreDocument> documentOptional = userDocumentRepository.findById(userId);
+        Optional<AbstractFirestoreDocument> documentOptional = userDocumentRepository.findById(userId);
         return (UserDocument) documentOptional.get();
     }
 
