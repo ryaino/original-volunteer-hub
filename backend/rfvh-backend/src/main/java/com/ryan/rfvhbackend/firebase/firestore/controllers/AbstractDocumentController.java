@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Parent controller that holds the logic for crud operations on documents
+ *
+ * @author Ryan Field (fieldryan19@gmail.com)
  */
 @RestController
 @RequestMapping("/api/document")
@@ -28,9 +30,8 @@ public abstract class AbstractDocumentController<D extends AbstractFirestoreDocu
      * @param id
      * @return
      */
-    public ResponseEntity<D> getDocumentById(String id) {
-        D document = service.getDocumentById(id);
-        return ResponseEntity.ok(document);
+    public D getDocumentById(String id) {
+        return service.getDocumentById(id);
     }
 
     /**
@@ -44,6 +45,17 @@ public abstract class AbstractDocumentController<D extends AbstractFirestoreDocu
     public List<D> getDocumentsByFieldValue(String fieldName, Object fieldValue) {
         return service.getDocumentsByFieldValue(fieldName, fieldValue);
 
+    }
+
+    /**
+     * Updates the specified field of a document
+     *
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
+    public boolean updateDocumentField(String documentId, String fieldName, Object fieldValue) {
+        return service.updateDocumentField(documentId, fieldName, fieldValue);
     }
 
 }

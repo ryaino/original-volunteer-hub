@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,14 +32,24 @@ public class UserDocumentController extends AbstractDocumentController<UserDocum
 
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<UserDocument> getUserById(@RequestParam String id) {
-        return getDocumentById(id);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<UserDocument> getUserById(@PathVariable String userId) {
+        return ResponseEntity.ok(getDocumentById(userId));
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDocument>> getUsersByFieldValue(@RequestParam String fieldName,
             @RequestParam Object fieldValue) {
         return ResponseEntity.ok(getDocumentsByFieldValue(fieldName, fieldValue));
+    }
+
+    @PostMapping("user/update/{userId}")
+    public ResponseEntity<String> updateFieldForUser(
+            @PathVariable String userId,
+            @RequestParam String fieldName,
+            @RequestParam Object fieldValue) {
+
+        updateDocumentField(userId, fieldName, fieldValue);
+        return ResponseEntity.ok().build();
     }
 }

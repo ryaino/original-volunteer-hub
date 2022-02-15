@@ -111,6 +111,13 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
         return null;
     }
 
+    /**
+     *
+     * @param <S>
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
     public <S extends AbstractFirestoreDocument> List<S> findAllByFieldValue(String fieldName, Object fieldValue) {
         List<S> results = new ArrayList<S>();
         ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection(collectionName())
@@ -125,6 +132,29 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
             e.printStackTrace();
         }
         return results;
+    }
+
+    /**
+     * Update a document
+     *
+     * @param documentId
+     * @param fieldName
+     * @param fieldValue
+     * @return
+     */
+    public boolean updateDocumentField(String documentId, String fieldName, Object fieldValue) {
+        DocumentReference docRef = FirestoreClient.getFirestore().collection(collectionName()).document(documentId);
+        try {
+            if (docRef.get().get().exists()) {
+                ApiFuture<WriteResult> future = docRef.update(fieldName, fieldValue);
+                return true;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 
     public abstract String collectionName();
