@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
@@ -17,6 +16,13 @@ import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocume
 
 import org.springframework.data.repository.CrudRepository;
 
+/**
+ * Handles all common functionality for accessing firestore. Whenever a
+ * collection needs accessing then a repository dedicated to that collection
+ * must be created that extends this class.
+ *
+ * @author Ryan Field (fieldryan19@gmail.com)
+ */
 public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFirestoreDocument>
         implements CrudRepository<AbstractFirestoreDocument, String> {
 
@@ -118,14 +124,14 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
      * @param fieldValue
      * @return
      */
-    public <S extends AbstractFirestoreDocument> List<S> findAllByFieldValue(String fieldName, Object fieldValue) {
-        List<S> results = new ArrayList<S>();
+    public List<T> findAllByFieldValue(String fieldName, Object fieldValue) {
+        List<T> results = new ArrayList<>();
         ApiFuture<QuerySnapshot> future = FirestoreClient.getFirestore().collection(collectionName())
                 .whereEqualTo(fieldName, fieldValue).get();
         try {
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             for (DocumentSnapshot document : documents) {
-                results.add((S) document.toObject(classType()));
+                results.add(document.toObject(classType()));
             }
         } catch (InterruptedException | ExecutionException e) {
             // TODO Auto-generated catch block

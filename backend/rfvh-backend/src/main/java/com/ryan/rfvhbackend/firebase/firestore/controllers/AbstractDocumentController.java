@@ -5,7 +5,6 @@ import java.util.List;
 import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 import com.ryan.rfvhbackend.firebase.firestore.services.AbstractDocumentService;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
