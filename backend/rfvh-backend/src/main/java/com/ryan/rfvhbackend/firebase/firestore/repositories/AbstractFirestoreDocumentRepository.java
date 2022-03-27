@@ -10,11 +10,12 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 
-import org.springframework.data.repository.CrudRepository;
+import org.apache.commons.lang3.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Handles all common functionality for accessing firestore. Whenever a
@@ -23,66 +24,49 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Ryan Field (fieldryan19@gmail.com)
  */
-public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFirestoreDocument>
-        implements CrudRepository<AbstractFirestoreDocument, String> {
+public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFirestoreDocument> {
 
-    @Override
+    private final Logger logger;
+
+    protected AbstractFirestoreDocumentRepository() {
+        this.logger = LoggerFactory.getLogger(classType());
+    }
+
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+        throw new NotImplementedException();
     }
 
-    @Override
     public void delete(AbstractFirestoreDocument entity) {
-        // TODO Auto-generated method stub
-
+        throw new NotImplementedException(entity.toString());
     }
 
-    @Override
     public void deleteAll() {
-        // TODO Auto-generated method stub
-
+        throw new NotImplementedException();
     }
 
-    @Override
-    public void deleteAll(Iterable<? extends AbstractFirestoreDocument> entities) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void deleteAllById(Iterable<? extends String> ids) {
-        // TODO Auto-generated method stub
-
+        throw new NotImplementedException();
     }
 
-    @Override
     public void deleteById(String id) {
-        // TODO Auto-generated method stub
+        throw new NotImplementedException();
 
     }
 
-    @Override
     public boolean existsById(String id) {
-        // TODO Auto-generated method stub
-        return false;
+        throw new NotImplementedException();
     }
 
-    @Override
     public Iterable<AbstractFirestoreDocument> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new NotImplementedException();
     }
 
-    @Override
-    public Iterable<AbstractFirestoreDocument> findAllById(Iterable<String> ids) {
-        // TODO Auto-generated method stub
-        return null;
+    public Iterable<T> findAllById(Iterable<String> ids) {
+        throw new NotImplementedException();
     }
 
-    @Override
-    public Optional<AbstractFirestoreDocument> findById(String id) {
-        Optional<AbstractFirestoreDocument> result = Optional.empty();
+    public Optional<T> findById(String id) {
+        Optional<T> result = Optional.empty();
         DocumentReference docRef = FirestoreClient.getFirestore().collection(collectionName()).document(id);
         ApiFuture<DocumentSnapshot> future = docRef.get();
 
@@ -91,30 +75,24 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
             T targetDocument = null;
 
             if (document.exists()) {
-                targetDocument = (T) document.toObject(classType());
+                targetDocument = document.toObject(classType());
                 result = Optional.of(targetDocument);
             }
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("Unable to find object with id: [{}]", id);
+            Thread.currentThread().interrupt();
         }
         return result;
     }
 
-    @Override
-    public <S extends AbstractFirestoreDocument> S save(S entity) {
-        ApiFuture<WriteResult> addedDocRef = FirestoreClient.getFirestore().collection(collectionName())
-                .document(entity.id().toString()).set(entity);
+    public T save(T entity) {
+        FirestoreClient.getFirestore().collection(collectionName())
+                .document(entity.id()).set(entity);
         return null;
     }
 
-    @Override
-    public <S extends AbstractFirestoreDocument> Iterable<S> saveAll(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        return null;
+    public <S extends AbstractFirestoreDocument> Iterable<S> saveAll(Iterable<T> entities) {
+        throw new NotImplementedException(entities.toString());
     }
 
     /**
@@ -134,8 +112,8 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
                 results.add(document.toObject(classType()));
             }
         } catch (InterruptedException | ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.error("Unable to find object with field: [{}] and value: [{}]", fieldName, fieldValue);
+            Thread.currentThread().interrupt();
         }
         return results;
     }
@@ -152,13 +130,13 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
         DocumentReference docRef = FirestoreClient.getFirestore().collection(collectionName()).document(documentId);
         try {
             if (docRef.get().get().exists()) {
-                ApiFuture<WriteResult> future = docRef.update(fieldName, fieldValue);
+                docRef.update(fieldName, fieldValue);
                 return true;
             }
         } catch (InterruptedException | ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
+            logger.error("Unable to find object with if: [{}] field: [{}] and value: [{}]", documentId, fieldName,
+                    fieldValue);
+            Thread.currentThread().interrupt();
         }
         return false;
     }
@@ -166,5 +144,9 @@ public abstract class AbstractFirestoreDocumentRepository<T extends AbstractFire
     public abstract String collectionName();
 
     public abstract Class<T> classType();
+
+    public void deleteAll(Iterable<? extends AbstractFirestoreDocument> entities) {
+        throw new NotImplementedException();
+    }
 
 }

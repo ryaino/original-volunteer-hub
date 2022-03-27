@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDocumentRepository extends AbstractFirestoreDocumentRepository<UserDocument> {
 
+    public UserDocumentRepository() {
+        super();
+    }
+
     @Override
     public String collectionName() {
         return UserDocument.COLLECTION_NAME;

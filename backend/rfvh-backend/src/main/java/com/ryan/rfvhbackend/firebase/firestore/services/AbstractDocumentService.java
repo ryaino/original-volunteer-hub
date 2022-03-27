@@ -13,9 +13,9 @@ import com.ryan.rfvhbackend.firebase.firestore.repositories.AbstractFirestoreDoc
  */
 public abstract class AbstractDocumentService<D extends AbstractFirestoreDocument, R extends AbstractFirestoreDocumentRepository<D>> {
 
-    public AbstractFirestoreDocumentRepository<D> repository;
+    private R repository;
 
-    public AbstractDocumentService(AbstractFirestoreDocumentRepository<D> repository) {
+    protected AbstractDocumentService(R repository) {
         this.repository = repository;
     }
 
@@ -26,8 +26,8 @@ public abstract class AbstractDocumentService<D extends AbstractFirestoreDocumen
      * @return POJO representing the document
      */
     public D getDocumentById(String id) {
-        Optional<AbstractFirestoreDocument> documentOptional = repository.findById(id);
-        return (D) documentOptional.get();
+        Optional<D> documentOptional = repository.findById(id);
+        return documentOptional.orElse(null);
     }
 
     /**

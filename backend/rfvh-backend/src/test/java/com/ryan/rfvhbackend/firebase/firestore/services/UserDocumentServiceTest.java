@@ -11,18 +11,15 @@ import com.ryan.rfvhbackend.firebase.firestore.repositories.UserDocumentReposito
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import utils.UserDocumentTestUtils;
 
 /**
  * @author Ryan Field (fieldryan19@gmail.com)
  */
-@RunWith(MockitoJUnitRunner.class)
 public class UserDocumentServiceTest {
 
     private UserDocumentService userDocumentService;

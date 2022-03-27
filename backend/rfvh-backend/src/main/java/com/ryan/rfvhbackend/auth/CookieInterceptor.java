@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -36,7 +35,7 @@ public class CookieInterceptor implements HandlerInterceptor {
                     logger.debug("session cookie present");
                     try {
                         final boolean checkRevoked = true;
-                        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifySessionCookie(cookie.getValue(),
+                        FirebaseAuth.getInstance().verifySessionCookie(cookie.getValue(),
                                 checkRevoked);
                         return true;
                     } catch (FirebaseAuthException e) {

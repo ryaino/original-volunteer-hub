@@ -10,10 +10,8 @@ import com.ryan.rfvhbackend.firebase.firestore.services.UserDocumentService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 import utils.UserDocumentTestUtils;
@@ -21,7 +19,6 @@ import utils.UserDocumentTestUtils;
 /**
  * @author Ryan Field (fieldryan19@gmail.com)
  */
-@RunWith(MockitoJUnitRunner.class)
 public class UserDocumentControllerTests {
 
     private UserDocumentController userDocumentController;
