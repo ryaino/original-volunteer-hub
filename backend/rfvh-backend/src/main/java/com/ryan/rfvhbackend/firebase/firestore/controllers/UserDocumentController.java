@@ -2,7 +2,6 @@ package com.ryan.rfvhbackend.firebase.firestore.controllers;
 
 import java.util.List;
 
-import com.ryan.rfvhbackend.firebase.firestore.documents.AbstractFirestoreDocument;
 import com.ryan.rfvhbackend.firebase.firestore.documents.UserDocument;
 import com.ryan.rfvhbackend.firebase.firestore.services.UserDocumentService;
 
@@ -44,12 +43,8 @@ public class UserDocumentController extends AbstractDocumentController<UserDocum
     }
 
     @PostMapping("user/update/{userId}")
-    public ResponseEntity<String> updateFieldForUser(
-            @PathVariable String userId,
-            @RequestParam String fieldName,
+    public ResponseEntity<Boolean> updateFieldForUser(@PathVariable String userId, @RequestParam String fieldName,
             @RequestParam Object fieldValue) {
-
-        updateDocumentField(userId, fieldName, fieldValue);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updateDocumentField(userId, fieldName, fieldValue));
     }
 }

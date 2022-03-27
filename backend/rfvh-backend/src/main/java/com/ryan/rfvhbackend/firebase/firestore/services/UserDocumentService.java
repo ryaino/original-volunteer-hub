@@ -19,7 +19,6 @@ public class UserDocumentService extends AbstractDocumentService<UserDocument, U
     @Autowired
     public UserDocumentService(UserDocumentRepository userDocumentRepository) {
         super(userDocumentRepository);
-
     }
 
 }
